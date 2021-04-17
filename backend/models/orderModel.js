@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const orderSchema = mongoose.Schema({
 	user:{
-		type:mongoose.Schema.Types.ObjectId,,
+		type:mongoose.Schema.Types.ObjectId,
 		required:true,
 		ref:'User'
 	},
@@ -68,10 +68,10 @@ const orderSchema = mongoose.Schema({
 	deliveredAt:{
 		type:Date
 	}, 
-	{
-		timestamps: true
 })
 
 const Order=mongoose.model('Order', orderSchema)
 
-default export Order
+export default Order
+
+

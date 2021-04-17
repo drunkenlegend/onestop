@@ -18,10 +18,10 @@ const userSchema = mongoose.Schema({
 		type:Boolean,
 		required:true,
 		default:false
-	}, {
-		timestamps: true
+	},
+
 })
 
 const User=mongoose.model('User', userSchema)
 
-default export User
+export default User
