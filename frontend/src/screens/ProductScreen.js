@@ -2,29 +2,31 @@ import React,{useState,useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import { Row , Col , Image , ListGroup , Card , Button } from 'react-bootstrap'
 import Rating from '../components/Rating'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import {useDispatch, useSelector} from 'react-redux'
 import axios from 'axios'
+import {listProductDetails} from '../actions/productActions'
 
 
 const ProductScreen = ({match}) => {
    
-    const [product,setProduct]=useState([])
+   const dispatch= useDispatch()
 
-	useEffect(()=>{
-		const fetchProduct = async ()=>{
-			const res = await axios.get(`/api/products/${match.params.id}`)
-			
-			setProduct(res.data)
-		}
+   const productDetails=useSelector(state => state.productDetails)
+   const{ loading, error, product}=productDetails
+   useEffect(()=>{
+    dispatch(listProductDetails(match.params.id))
+    }, [dispatch,match])
 
-		fetchProduct()
-	})
+
     return (
         <div>
             <Link className='' to='/'> {`<<`}Go Back</Link>
-
+            {loading ?<Loader /> : error ?<Message variant='danger'>{error}</Message> :(
             <Row className='my-4 '>
-                <Col  md={6}   >
-                    <Image src={product.image} alt={product.name} fluid></Image>
+                <Col  md={6}>
+                    <Image src={product.image} alt={product.name} fluid />
                 </Col>
                 <Col md={3}>
                     <ListGroup variant='flush'>
@@ -64,6 +66,11 @@ const ProductScreen = ({match}) => {
                     </Card>
                 </Col>
             </Row>
+
+
+            )}
+
+            
         </div>
     )
 }
